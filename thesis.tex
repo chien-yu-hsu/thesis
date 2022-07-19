@@ -103,7 +103,7 @@ Therefore, in this paper, we analyze bisulfite sequencing data using real and si
 In the first chapter, we describe the background of DNA methylation and what diseases it will cause in humans, as well as introduce the process of bisulfite sequencing. Our motivation will be to describe the importance of methylation analysis.
 
 \par 
-In the second chapter, we introduce the simulation tool MethylFASTQ used in the experiment, as well as the three different bisulfite alignment tools and bowtie2.
+In the second chapter, we introduce the simulation tool MethylFASTQ used in the experiment, as well as the three different methyaltion calling tools and bowtie2.
 
 \par
 In the third chapter, the experimental results of real data and simulated data are recorded and comparison of the methylation levels in different comparison tools is shown.
@@ -111,7 +111,7 @@ In the third chapter, the experimental results of real data and simulated data a
 \par
 In the fourth chapter, we summarize the results of the previous chapter and discuss the future improvements of EAGLE-meth.
 
-\chapter{Materials and Related works}
+\chapter{Materials \& Related works}
 
 
 \section{MethylFASTQ}
@@ -140,7 +140,7 @@ Currently, the main sequencing libraries for DNA methylation studies include: WG
 Due to a combination of several factors,the alignment of bisulfite-treated sequences to the reference genome poses significant computational challenges. Such as the reduced complexity of the DNA code and up to four DNA strands to be analyzed, among others. Even though there are many excellent short-read mapping tools available, e.g., Bowtie, it does not have the capability to perform bisulfite mapping by itself. Therefore, two algorithms have been proposed for bisulfite sequencing: wildcard and three-letter, and this paper will focus on the introduction of three-letter aligners\cite{krueger2011bismark}. In addition, the methylation level of CpG sites is calculated based on the number of methylated and unmethylated reads mapped to the reference genome, so the mapping rate of reads is also an important factor affecting the accuracy of methylation evaluation.
 
 \par
-In general, in mammals, DNA methylation occurs mainly on CpG dinucleotides. However, in embryonic stem cells, a certain amount of non-CpG methylation is shown. In plants, methylation is common in both symmetrical CpG or CHG and asymmetrical CHH environments (the H mentioned above can be A, T or C). Therefore, in the following alignment tool, we will consider these three methylation scenarios for methylation analysis and evaluation.
+In general, in mammals, DNA methylation occurs mainly on CpG dinucleotides. However, in embryonic stem cells, a certain amount of non-CpG methylation is shown. In plants, methylation is common in both symmetrical CpG or CHG and asymmetrical CHH environments (the H mentioned above can be A, T or C). Therefore, in the following methylation calling tool, we will consider these three methylation scenarios for methylation analysis and evaluation.
 
 \section{EAGLE-meth}
 EAGLE-meth is a modified generative probability model based on EAGLE\cite{kuo2018eagle}, which calculates the probability of methylation of the CpG site and gives a likelihood value to the site. EAGLE itself is a method to calculate the probability of genomic variation, which is extended to explore the gene sequence and evaluate the probability of methylation of each cytosine in the sequence.
@@ -226,17 +226,17 @@ Bowtie2 outputs the alignment in SAM format so that we can use SAM files to proc
 (Figure \ref{f5})Where dash symbols represent gaps and vertical bars show where aligned characters match.(1)End-to-end alignment：“end-to-end” alignment involves all the characters in the read.Such an alignment can be produced by Bowtie 2 in either end-to-end mode or in local mode.(2)Local alignment：local alignment does not participate in some characters at the end of reads. In this case, 4 characters are omitted (or "soft trimmed" or "soft clipped") from the beginning and 3 characters are omitted from the end. This sort of alignment can be produced by Bowtie 2 only in local mode.
 
 \par
-When we actually perform the alignment sequence step, it often takes a lot of time in the step. This is because the aligner has to deal with difficult computational problems and must determine the possible starting points of the reads relative to the reference genome for each read. Therefore, we have to reduce the difficulty of this step by using index and dynamic programming. Therefore, most of the alignment software is divided into two commands: index creation and actual alignment.
+When we actually perform the alignment sequence step, it often takes a lot of time in the step. This is because the aligner has to deal with difficult computational problems and must determine the possible starting points of the reads relative to the reference genome for each read. Therefore, we have to reduce the difficulty of this step by using index and dynamic programming. Therefore, most of the methylation calling software is divided into two commands: index creation and actual alignment.
 
 \chapter{Experiment and Reaults}
 \section{Dataset}
-In section 3.1, we will introduce the data used in the experiment, which can be divided into two parts: the actual data and the simulated data. Since there are not many benchmark data available, we will use the tool MethylFASTQ to simulate the occurrence of methylation and assist us in the analysis of the alignment tool. With the data generated from the simulation tool, we can easily know the methylation situation of each site, which is very helpful for us to evaluate the accuracy of the alignment tool.
+In section 3.1, we will introduce the data used in the experiment, which can be divided into two parts: the actual data and the simulated data. Since there are not many benchmark data available, we will use the tool MethylFASTQ to simulate the occurrence of methylation and assist us in the analysis of the methyaltion calling tool. With the data generated from the simulation tool, we can easily know the methylation situation of each site, which is very helpful for us to evaluate the accuracy of the methyaltion calling tool.
 
-\subsection{Bisulfite sequencing real data}
-The real data come from the WGBS library of Arabidopsis thaliana on NCBI. Arabidopsis thaliana is a common model organism in plant biology and genetics, with a relatively small genome of about 135 million base pairs. We used TAIR10 chromosome files as the reference genome for this experiment and selected the Illumina-sequenced Bisulfite-seq SRR5534888 as the read. a sample of GSM2616974 was used as the gold standard for our methylation analysis to help us evaluate the accuracy of different tools later. The methylation level is an important criterion for the evaluation of our tools, which is calculated by the number of methylated cytosines (C) divided by the total number of cytosines. For the data with bisulfite sequencing, the total number of cytosines in the total number of cytosines and thymines in the read. In the following experiments of real data, we chose BS-Seeker2 and Bismark as the bisulfite alignment tools for the analysis.
+\subsection{Real data}
+The real data come from the WGBS library of Arabidopsis thaliana on NCBI. Arabidopsis thaliana is a common model organism in plant biology and genetics, with a relatively small genome of about 135 million base pairs. We used TAIR10 chromosome files as the reference genome for this experiment and selected the Illumina-sequenced Bisulfite-seq SRR5534888 as the read. a sample of GSM2616974 was used as the gold standard for our methylation analysis to help us evaluate the accuracy of different tools later. The methylation level is an important criterion for the evaluation of our tools, which is calculated by the number of methylated cytosines (C) divided by the total number of cytosines. For the data with bisulfite sequencing, the total number of cytosines in the total number of cytosines and thymines in the read. In the following experiments of real data, we chose BS-Seeker2 and Bismark as methyaltion calling tools for the analysis.
 
-\subsection{Generating simulation data using MethylFASTQ}
-In this paper, we used MethylFASTQ as a simulator to generate experimental data. For the reference genome section, we chose two different species, namely chromosome 22 of GRCh37 in the human genome library and chromosome M in Arabidopsis thaliana. Chromosome 22 is one of the 23 pairs of chromosomes in human cells, and in normal human cells, there is usually one pair of chromosome 22. Moreover, chromosome 22 is the first human chromosome to be completely sequenced. In the following experiments, we will capture the target fragments to analyze different bisulfite alignment tools.
+\subsection{Simulated data}
+In this paper, we used MethylFASTQ as a simulator to generate experimental data. For the reference genome section, we chose two different species, namely chromosome 22 of GRCh37 in the human genome library and chromosome M in Arabidopsis thaliana. Chromosome 22 is one of the 23 pairs of chromosomes in human cells, and in normal human cells, there is usually one pair of chromosome 22. Moreover, chromosome 22 is the first human chromosome to be completely sequenced. In the following experiments, we will capture the target fragments to analyze different methyaltion calling tools.
 
 % \begin{align*}
 % ℒ  \;=&\;\;  \frac{1}{σ\sqrt{2π}}\, \exp\Big( \frac{-(x-μ)²}{2σ²}\Big)\\[.5ex]% .5ex adds extra vertical height
@@ -258,7 +258,7 @@ In this paper, we used MethylFASTQ as a simulator to generate experimental data.
 % \label{tab:notation}
 % \end{table}
 
-\section{Analysis of real data between BS-Seeker2 and Bismark}
+\section{Analysis of real data}
 \subsection{Experimental results of BS-Seeker2}
 First, BS-Seeker2 would filter the reads and filter out the low-quality reads, and then help us to get the unique reads before mapping. but this function is only for WGBS, not for RRBS. Next, build the index for the reference genes, and the reference genome if it is RRBS, then we need to give the fragment lengths of upper and lower bounds. After doing the previous two steps, we perform the alignment of the read with the reference genome sequence. This step is also the most time-consuming part of BS-Seeker2, which took more than 11 hours to complete. The experimental results showed that the total number of sequences was 169,961,140 and the number of uniquely mapped reads accounted for 10,379,352,749, with a mapping rate of about 80.22\%.
 
@@ -267,7 +267,7 @@ Finally, calls methylation levels from the mapping result, this step can be spli
 
 \begin{figure}[h]
   \centering
-  \includegraphics[scale=0.8]{table/CGmap.png}
+  \includegraphics[scale=1.0]{table/CGmap.png}
   \caption{\textbf{The output files of BS-Seeker2.}
   }
   \label{f6}
@@ -314,7 +314,7 @@ In this chapter, we use real data to perform experiments with Arabidopsis thalia
 
 \begin{figure}[h]
   \centering
-  \includegraphics[scale=0.8]{table/table3.png}
+  \includegraphics[scale=1.0]{table/table3.png}
   \caption{\textbf{Compare the results of running bs-seeker2 and bismark.}
   }
   \label{f10}
@@ -322,7 +322,7 @@ In this chapter, we use real data to perform experiments with Arabidopsis thalia
 
 \begin{figure}[h]
   \centering
-  \includegraphics[scale=0.8]{table/table4.png}
+  \includegraphics[scale=1.0]{table/table4.png}
   \caption{\textbf{Average methylation level per chromosome.}
   Chr represents different numbers of chromosomes}
   \label{f11}
@@ -333,19 +333,19 @@ Third, we calculate the deviation value of each site in the chromosome and bench
 
 \begin{figure}[h]
   \centering
-  \includegraphics[scale=0.8]{table/table5.png}
+  \includegraphics[scale=1.0]{table/table5.png}
   \caption{\textbf{Deviation values of methylation levels of different chromosomes.}
   }
   \label{f12}
 \end{figure}
 
 
-\section{Analysis of simulated data in three bisulfite mapping tools}
+\section{Analysis of simulated data}
 In the simulated data of humans and Arabidopsis thaliana, we used three tools, EAGLE-meth, BS-Seeker2, and Bismark, to further evaluate the accuracy of different tools for calculating methylation levels. (Figure \ref{f13}) shows the functional descriptions of the three tools supported by the comparison.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[scale=0.8]{table/table6.png}
+  \includegraphics[scale=1.0]{table/table6.png}
   \caption{\textbf{Comparison of different software tools for methylatoin analysis.}}
   \label{f13}
 \end{figure}
@@ -355,16 +355,19 @@ In setting the parameters of the simulation tool, we set the --cg CG-methylation
 
 \begin{figure}[h]
   \centering
-  \includegraphics[scale=0.8]{table/table7.png}
+  \includegraphics[scale=1.0]{table/table7.png}
   \caption{\textbf{Comparison of methylation-level and deviation values between different bisulfite mapping tools.}}
   \label{f14}
 \end{figure}
 
 
-\chapter{Conclusions anf Future Work}
+\chapter{Conclusions and Future Work}
 
 \section{Conclusions}
-The experimental results are based on the simulated data of different species, we consider EAGLE-meth as a comparative tool for evaluating the bisulfite data. Using the experimental methylation probabilities and calculating the deviations between EAGLE-meth and benchmark, we can observe that the deviations are not high and are similar to the benchmark results. Therefore, EAGLE-meth has been able to estimate the methylation probability of most CpGs, which is a great help to the study of DNA methylation.
+Since the study of DNA methylation is very important in biology, more and more methylation calling tools have been developed. However, how to choose the right tool for the analysis becomes a very important issue. From the experimental results, it can be concluded that both BS-Seeker2 and Bismark are very accurate in the calculation of methylation levels. However, compared with BS-Seeker2, Bismark has more comprehensive functions to visualize our results in the visualization of methylation analysis.
+
+\par
+Furthermore, we consider EAGLE-meth as a comparative tool for evaluating the bisulfite data. Using the experimental methylation probabilities and calculating the deviations between EAGLE-meth and benchmark, we can observe that the deviations are not high and are similar to the benchmark results. Therefore, EAGLE-meth has been able to estimate the methylation probability of most CpGs, which is a great help to the study of DNA methylation.
 
 \section{Future Work}
 Finally, we found that there are still some noteworthy problems. In the simulated data, we only choose the fragment of chr22 and chrM for the experiment. This is because the reference genome is a very long sequence, and EAGLE-meth adopts a greedy algorithm strategy, which will spend a lot of time in the actual computation. In addition, EAGLE-meth cannot be applied to longer genomic sequences because of memory limitations.
