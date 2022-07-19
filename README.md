@@ -1,3 +1,5 @@
+#Benchmark evaluation of methylation calling software for bisulfite sequencing data
+
 # Template/Example for Master's or PhD Thesis
 
 Developed by Paul Horton in 2021 for his lab in the computer science department at NCKU.  
