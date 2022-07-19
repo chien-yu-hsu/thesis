@@ -1,4 +1,4 @@
-#Benchmark evaluation of methylation calling software for bisulfite sequencing data
+# Benchmark evaluation of methylation calling software for bisulfite sequencing data
 
 # Template/Example for Master's or PhD Thesis
 
